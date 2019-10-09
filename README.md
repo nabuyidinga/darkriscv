@@ -862,10 +862,10 @@ TODO: add more friends in this list! :)
 	[5] http://quasilyte.dev/blog/post/riscv32-custom-instruction-and-its-simulation/
 	[6] https://github.com/riscv/riscv-pk/blob/master/bbl/riscv_logo.txt
 
-## 2019.10.9 modified by nabuyidinga
-1.rtl/divide.v is not used
-2.fpga v7 clk is set to 20MHz
-3.add a riscv-32 gcc toolchain for ubuntu18.06
-4.first compile the c code and generate .rom and .ram files, add them to vivado src files
-5.constraint files: boards/xilinx_ac701_a200/darksocv.xdc and boards/xilinx_ac701_a200/darkriscv.xdc
-6.vivado board is xc7v2000tflg1925-2
+## 2019.10.9 modified by nabuyidinga  
+1.rtl/divide.v is not used  
+2.fpga v7 clk is set to 20MHz  
+3.add a riscv-32 gcc toolchain for ubuntu18.06  
+4.first compile the c code and generate .rom and .ram files, add them to vivado src files  
+5.constraint files: boards/xilinx_ac701_a200/darksocv.xdc and boards/xilinx_ac701_a200/darkriscv.xdc  
+6.vivado board is xc7v2000tflg1925-2  
