@@ -29,73 +29,16 @@
  */
 
 `timescale 1ns / 1ps
-`include "../rtl/config.vh"
+`include "config.vh"
 
-// the following defines are user defined:
-
-//`define __ICACHE__              // instruction cache
-//`define __DCACHE__              // data cache (bug: simulation only)
-//`define __WAITSTATES__          // wait-state tests, no cache
-//`define __3STAGE__              // single phase 3-state pipeline 
-//`define __THREADING__           // interrupt controller
-
-// the board is automatically defined in the xst/xise files via 
-// Makefile or ISE otherwise, please define you board name here:
-
-//`define AVNET_MICROBOARD_LX9
-//`define XILINX_AC701_A200
-//`define QMTECH_SDRAM_LX16
-
-// the following defines are automatically defined:
-/*
-`ifdef __ICARUS__
-    `define SIMULATION 1
-`endif
-
-`ifdef XILINX_ISIM
-    `define SIMULATION 2
-`endif
-
-`ifdef MODEL_TECH
-    `define SIMULATION 3
-`endif
-
-`ifdef XILINX_SIMULATOR
-    `define SIMULATION 4
-`endif
-
-`ifdef AVNET_MICROBOARD_LX9
-    `define BOARD_ID 1
-    `define BOARD_CK 100000000
-    
-    // example of DCM logic:
-    //
-    //`define BOARD_CK_REF 66666666 
-    //`define BOARD_CK_MUL 3
-    //`define BOARD_CK_DIV 2
-`endif
-
-`ifdef XILINX_AC701_A200
-    `define BOARD_ID 2
-    //`define BOARD_CK 90000000
-    `define BOARD_CK_REF 90000000 
-    `define BOARD_CK_MUL 4
-    `define BOARD_CK_DIV 2
-`endif
-
-`ifdef QMTECH_SDRAM_LX16
-    `define BOARD_ID 3
-    `define BOARD_CK 50000000
-`endif
-
-`ifndef BOARD_ID
-    `define BOARD_ID 0    
-    `define BOARD_CK 100000000   
-`endif
-*/
 module darksocv
 (
+`ifndef SIMULATION
+    input        XCLKP,      // external clock
+    input        XCLKN,      // external clock
+`else
     input        XCLK,      // external clock
+`endif
     input        XRES,      // external reset
     
     input        UART_RXD,  // UART receive line
@@ -108,6 +51,18 @@ module darksocv
     // internal/external reset logic
 
     reg [7:0] IRES = -1;
+`ifndef SIMULATION
+    wire XCLK;
+    IBUFGDS
+	#(
+	    .DIFF_TERM ("TRUE"),
+	    .IBUF_LOW_PWR ("FALSE")
+	 ) inst_XCLK (
+	    .O (XCLK),
+	    .I (XCLKP),
+	    .IB (XCLKN)
+	);
+`endif
 
 `ifdef QMTECH_SDRAM_LX16
     always@(posedge XCLK) IRES <= XRES==0 ? -1 : IRES[7] ? IRES-1 : 0; // reset low
@@ -542,6 +497,8 @@ module darksocv
 
     assign HLT = !IHIT||!DHIT||!WHIT;
 
+//    wire CLK_DIV;
+//    divider div0 (CLK, RES, CLK_DIV);
     // darkuart
   
     wire [3:0] UDEBUG;
@@ -554,6 +511,7 @@ module darksocv
     uart0
     (
       .CLK(CLK),
+//      .CLK(CLK_DIV),
       .RES(RES),
       .RD(!HLT&&RD&&DADDR[31]&&DADDR[3:2]==1),
       .WR(!HLT&&WR&&DADDR[31]&&DADDR[3:2]==1),
@@ -602,7 +560,7 @@ module darksocv
   initial
   begin
     $dumpfile("darksocv.vcd");
-    $dumpvars(0, core0);
+    $dumpvars;
   end
 `endif
 

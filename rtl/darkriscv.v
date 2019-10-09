@@ -32,16 +32,16 @@
 
 // implemented opcodes:
 
-`define LUI     7'b01101_11      // lui   rd,imm[31:12]
-`define AUIPC   7'b00101_11      // auipc rd,imm[31:12]
-`define JAL     7'b11011_11      // jal   rd,imm[xxxxx]
-`define JALR    7'b11001_11      // jalr  rd,rs1,imm[11:0] 
-`define BCC     7'b11000_11      // bcc   rs1,rs2,imm[12:1]
-`define LCC     7'b00000_11      // lxx   rd,rs1,imm[11:0]
-`define SCC     7'b01000_11      // sxx   rs1,rs2,imm[11:0]
-`define MCC     7'b00100_11      // xxxi  rd,rs1,imm[11:0]
-`define RCC     7'b01100_11      // xxx   rd,rs1,rs2 
-`define MAC     7'b11111_11      // mac   rd,rs1,rs2
+`define LUI     7'b01101_11      // lui   rd,imm[31:12] 0x37
+`define AUIPC   7'b00101_11      // auipc rd,imm[31:12] 0x17
+`define JAL     7'b11011_11      // jal   rd,imm[xxxxx] 0x6f
+`define JALR    7'b11001_11      // jalr  rd,rs1,imm[11:0] 0x67
+`define BCC     7'b11000_11      // bcc   rs1,rs2,imm[12:1] 0x63
+`define LCC     7'b00000_11      // lxx   rd,rs1,imm[11:0] 0x03
+`define SCC     7'b01000_11      // sxx   rs1,rs2,imm[11:0] 0x23
+`define MCC     7'b00100_11      // xxxi  rd,rs1,imm[11:0] 0x13
+`define RCC     7'b01100_11      // xxx   rd,rs1,rs2 0x33
+`define MAC     7'b11111_11      // mac   rd,rs1,rs2 0x7f
 
 // not implemented opcodes:
 
@@ -50,7 +50,7 @@
 
 // configuration file
 
-`include "../rtl/config.vh"
+`include "config.vh"
 
 module darkriscv
 //#(

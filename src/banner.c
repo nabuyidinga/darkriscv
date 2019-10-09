@@ -32,6 +32,7 @@
 
 #include <stdio.h>
 
+extern int threads; // number of threads
 void banner(void)
 {
 #ifndef RLE
@@ -118,11 +119,12 @@ void banner(void)
       0x45, 0x02, 0x0a, 0x02, 0x00 };
 
   //printf("\33[H\33[2J");
-  putchar('\n');
+  //putchar('\n');
   
   register int c,s;
   register char *p = rle_logo;
   
+  printf("test start!\n");
   while(*p)
   {
       c = *p++;
@@ -130,6 +132,7 @@ void banner(void)
       
       while(s--) putchar(c);
   }
+  printf("test ends %d!\n", threads);
 
 #endif
 }

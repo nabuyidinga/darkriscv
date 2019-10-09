@@ -104,7 +104,7 @@
 // minimal in typical applications with modern 5 or 6 input LUT based FPGAs, 
 // but the RV32E is better with old 4 input LUT based FPGAs.
 
-`define __RV32E__
+//`define __RV32E__
 
 // initial PC and SP
 //
@@ -176,7 +176,13 @@
 
 `ifndef BOARD_ID
     `define BOARD_ID 0    
+`ifndef SIMULATION
     `define BOARD_CK 100000000   
+`else
+    `define BOARD_CK 20000000   
+`endif
+`else
+    `define UART_CK 20000000   
 `endif
     
 `ifdef BOARD_CK_REF
@@ -189,4 +195,4 @@
   `define __UARTSPEED__ 115200
 `endif
 
-`define  __BAUD__ ((`BOARD_CK/`__UARTSPEED__))
+`define  __BAUD__ ((`UART_CK/`__UARTSPEED__))

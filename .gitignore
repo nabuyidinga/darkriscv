@@ -1,0 +1,7 @@
+/tmp/
+/src/*.o
+/src/*.s
+/src/*.lst
+/src/*.map
+/src/*.data
+/src/*.text

@@ -1,6 +1,5 @@
 	.file	"io.c"
 	.option nopic
-	.text
 	.globl	board_name
 	.globl	threads
 	.comm	io,16,4
@@ -36,4 +35,4 @@ board_name:
 	.size	threads, 4
 threads:
 	.zero	4
-	.ident	"GCC: (GNU) 9.0.0 20180818 (experimental)"
+	.ident	"GCC: (GNU) 7.2.0"

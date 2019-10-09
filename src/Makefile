@@ -59,7 +59,7 @@ endif
     OC = $(CCPATH)/$(CROSS)-objcopy
     OD = $(CCPATH)/$(CROSS)-objdump
 
-CCFLAGS = -Wall -I./include -Os -fomit-frame-pointer -march=$(ARCH) -D__RISCV__ -DBUILD="\"$(BUILD)\"" -DARCH="\"$(ARCH)\""
+CCFLAGS = -Wall -Werror -I./include -Os -fomit-frame-pointer -march=$(ARCH) -D__RISCV__ -DBUILD="\"$(BUILD)\"" -DARCH="\"$(ARCH)\""
 ASFLAGS = -march=$(ARCH)
 LDFLAGS = -T$(PROJ).ld -Map=$(PROJ).map # -Ttext=0
 
@@ -96,10 +96,11 @@ $(PROJ).bin: $(PROJ).o
 	$(OD) $(ODFLAGS) $< > $(PROJ).lst
 
 $(PROJ).text: $(PROJ).o
-	$(OC) $(OCFLAGS) $< $@ --only-section .text*
+	$(OC) $(OCFLAGS) $< $@
+	$(OD) $(ODFLAGS) $< > $(PROJ)_text.lst
 
 $(PROJ).data: $(PROJ).o
-	$(OC) $(OCFLAGS) $< $@ --only-section .*data*
+	$(OC) $(OCFLAGS) $< $@ -j .*data*
 
 $(PROJ).rom: $(PROJ).text
 	hexdump -ve '1/4 "%08x\n"' $< > $@
